@@ -82,10 +82,9 @@ function setAllItems() {
     for(let i = 0; i < casesInput.value; i++) {
         let randomIndex = getRandomNum(totalPopulation)
         arrPopulation[randomIndex].state = 'sick'
-        console.log(arrPopulation[randomIndex+100])
     }
 
-    console.log(arrPopulation)
+    handleDisplay()
 
 }
 
@@ -95,10 +94,10 @@ function handleDisplay() {
         cell.classList.add('person')
         switch(person.state) {
             case 'fine':
-                cell.style.backgroundColor = 'rgb(0, 47, 255)'
+                cell.style.backgroundColor = 'rgb(1, 241, 1)'
                 break
             case 'immune':
-                cell.style.backgroundColor = 'rgb(1, 241, 1)'
+                cell.style.backgroundColor = 'rgb(0, 47, 255)'
                 break
             case 'dead':
                 cell.style.backgroundColor = 'black'
@@ -117,4 +116,3 @@ form.addEventListener('input',()=>{
 })
 
 setAllItems()
-handleDisplay()
