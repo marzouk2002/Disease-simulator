@@ -58,8 +58,47 @@ function setAllItems() {
     localStorage.setItem('timeBeforeDeath', timeBeforeDeath.value)
     localStorage.setItem('timeBeforeHealing', timeBeforeHealing.value)
     localStorage.setItem('fps', fps.value)
+
+    let size = sizeInput.value
+    Grid.style.setProperty('--num-row', size)
+
+    let arrPopulation = Array(Math.pow(size, 2)).fill(new Person())
+
+    const totalPopulation = Math.pow(size, 2)
+
+    const arrImmune = getRandomIndexes(totalPopulation, vaccineInput.value)
+    arrImmune.forEach(num=>{
+        arrPopulation[num].state = 'immune'
+    })
+
+    const arrCase = getRandomIndexes(totalPopulation, casesInput.value)
+    arrCase.forEach(num => {
+        arrPopulation[num].state = 'sick'
+    })
+
+    localStorage.setItem('arrPopulation', JSON.stringify(arrPopulation))
 }
 
 function handleDisplay() {
-    
+    const arrPopulation = localStorage.getItem('arrPopulation')
+
+    arrPopulation.forEach(person=>{
+        let cell = document.createElement('div')
+        cell.classList.add('person')
+        switch(person.state) {
+            case 'fine':
+                cell.style.backgroundColor = 'rgb(0, 47, 255)'
+                break
+            case 'immune':
+                cell.style.backgroundColor = 'rgb(1, 241, 1)'
+                break
+            case 'dead':
+                cell.style.backgroundColor = 'black'
+                break
+            case 'sick':
+                cell.style.backgroundColor = 'red'
+                break
+        }
+        Grid.appendChild(cell)
+    })
 }
