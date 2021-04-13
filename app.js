@@ -7,15 +7,23 @@ class Person {
 }
 
 //Globale variables
-localStorage.setItem('localSsilumationState', false)
+let localSsilumationState= false
+let arrPopulation;
+let size;
+let vaccineP;
+let casesP;
+let fatalityP;
+let contagiosityP;
+let timeBeforeDeath;
+let fps;
 
 //helper function 
 function getRandomNum(range) {
-    return Math.round(Math.random()*range)
+    return Math.floor(Math.random()*range)
 }
 
 function getRandomState(rate) {
-    let num = Math.round(Math.random()*100)
+    let num = Math.floor(Math.random()*100)
     return rate>=num ? true : false
 }
 
@@ -27,7 +35,7 @@ function getRandomIndexes(size, rate) {
 
 // SELECTORS
     // grid
-const Grid = document.querySelector('population')
+const Grid = document.querySelector('.population')
     // form
 const form = document.querySelector('#input-form')
 const sizeInput = document.querySelector('#size-f')
@@ -35,9 +43,9 @@ const vaccineInput = document.querySelector('#vaccine')
 const casesInput = document.querySelector('#cases-f')
 const fatalityInput = document.querySelector('#fatality-f')
 const contagiosityInput = document.querySelector('#contagiosity-f')
-const timeBeforeDeath = document.querySelector('#time-b-d')
-const timeBeforeHealing = document.querySelector('#time-b-h')
-const fps = document.querySelector('#fps')
+const timeBeforeDeathInput = document.querySelector('#time-b-d')
+const timeBeforeHealingInput = document.querySelector('#time-b-h')
+const fpsInput = document.querySelector('#fps')
     // buttons
 const btnStart = document.querySelector('.btn-start')
 const btnReset = document.querySelector('.btn-reset')
@@ -50,38 +58,38 @@ const activeSpan = document.querySelector('#a-cases')
 
 // Main functions
 function setAllItems() {
-    localStorage.setItem('size', sizeInput.value)
-    localStorage.setItem('vaccineP', vaccineInput.value)
-    localStorage.setItem('casesP', casesInput.value)
-    localStorage.setItem('fatalityP', fatalityInput.value)
-    localStorage.setItem('contagiosityP', contagiosityInput.value)
-    localStorage.setItem('timeBeforeDeath', timeBeforeDeath.value)
-    localStorage.setItem('timeBeforeHealing', timeBeforeHealing.value)
-    localStorage.setItem('fps', fps.value)
+    let pixelsNum= sizeInput.value
+    vaccineP= vaccineInput.value
+    casesP= casesInput.value
+    fatalityP= fatalityInput.value
+    contagiosityP= contagiosityInput.value
+    timeBeforeDeath= timeBeforeDeathInput.value
+    timeBeforeHealing= timeBeforeHealingInput.value
+    fps= fpsInput.value
 
-    let size = sizeInput.value
+    size = Math.round(500 /pixelsNum)
     Grid.style.setProperty('--num-row', size)
 
-    let arrPopulation = Array(Math.pow(size, 2)).fill(new Person())
+    arrPopulation = Array(Math.pow(size, 2)).fill(0).map(x=>new Person())
 
     const totalPopulation = Math.pow(size, 2)
-
+    
     const arrImmune = getRandomIndexes(totalPopulation, vaccineInput.value)
     arrImmune.forEach(num=>{
         arrPopulation[num].state = 'immune'
     })
+    
+    for(let i = 0; i < casesInput.value; i++) {
+        let randomIndex = getRandomNum(totalPopulation)
+        arrPopulation[randomIndex].state = 'sick'
+        console.log(arrPopulation[randomIndex+100])
+    }
 
-    const arrCase = getRandomIndexes(totalPopulation, casesInput.value)
-    arrCase.forEach(num => {
-        arrPopulation[num].state = 'sick'
-    })
+    console.log(arrPopulation)
 
-    localStorage.setItem('arrPopulation', JSON.stringify(arrPopulation))
 }
 
 function handleDisplay() {
-    const arrPopulation = localStorage.getItem('arrPopulation')
-
     arrPopulation.forEach(person=>{
         let cell = document.createElement('div')
         cell.classList.add('person')
@@ -102,3 +110,11 @@ function handleDisplay() {
         Grid.appendChild(cell)
     })
 }
+
+form.addEventListener('input',()=>{
+    setAllItems()
+    handleDisplay()
+})
+
+setAllItems()
+handleDisplay()

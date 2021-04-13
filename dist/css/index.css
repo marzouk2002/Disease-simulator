@@ -47,7 +47,7 @@ section {
 }
 
 section:nth-child(2) {
-  background-color: #ddd;
+  background-color: #111;
 }
 
 .control {
@@ -99,6 +99,8 @@ input {
   --num-row: 50;
   display: -ms-grid;
   display: grid;
+  width: 100%;
+  height: 100%;
   -ms-grid-columns: (1fr)[var];
       grid-template-columns: repeat(var(--num-row), 1fr);
   -ms-grid-rows: (1fr)[var];

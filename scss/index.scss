@@ -41,7 +41,7 @@ section {
 }
 
 section:nth-child(2) {
-  background-color: #ddd;
+  background-color: #111;
 }
 
 .control {
@@ -84,6 +84,8 @@ input {
   padding: 0.5rem;
   --num-row: 50;
   display: grid;
+  width: 100%;
+  height: 100%;
   grid-template-columns: repeat(var(--num-row), 1fr);
   grid-template-rows: repeat(var(--num-row), 1fr);
   grid-gap: 1px;
