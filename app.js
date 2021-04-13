@@ -59,3 +59,7 @@ function setAllItems() {
     localStorage.setItem('timeBeforeHealing', timeBeforeHealing.value)
     localStorage.setItem('fps', fps.value)
 }
+
+function handleDisplay() {
+    
+}

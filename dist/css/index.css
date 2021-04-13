@@ -96,14 +96,14 @@ input {
 
 .population {
   padding: 0.5rem;
-  --size-pix: 10px;
   --num-row: 50;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (var(--size-pix))[var];
-      grid-template-columns: repeat(var(--num-row), var(--size-pix));
-  -ms-grid-rows: (var(--size-pix))[var];
-      grid-template-rows: repeat(var(--num-row), var(--size-pix));
+  -ms-grid-columns: (1fr)[var];
+      grid-template-columns: repeat(var(--num-row), 1fr);
+  -ms-grid-rows: (1fr)[var];
+      grid-template-rows: repeat(var(--num-row), 1fr);
+  grid-gap: 1px;
 }
 
 .output > * {

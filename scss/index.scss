@@ -82,11 +82,11 @@ input {
 
 .population {
   padding: 0.5rem;
-  --size-pix: 10px;
   --num-row: 50;
   display: grid;
-  grid-template-columns: repeat(var(--num-row), var(--size-pix));
-  grid-template-rows: repeat(var(--num-row), var(--size-pix));
+  grid-template-columns: repeat(var(--num-row), 1fr);
+  grid-template-rows: repeat(var(--num-row), 1fr);
+  grid-gap: 1px;
 }
 
 .output > * {
