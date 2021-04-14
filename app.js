@@ -93,6 +93,7 @@ function setAllItems() {
         }
     }
 
+
     handleDisplay()
 
 }
@@ -121,16 +122,16 @@ function handleDisplay() {
 }
 
 function simulator() {
-    setAllItems()
     SilumationState = true
-    const interval = Math.floor(1000/fps)
+    const interval = Math.floor(100)
     intervalSimu = setInterval(()=>{
         let isThereAny= false
         let deaths = 0
         let curred = 0
         let currentCases = 0
         let newCases = 0
-        arrPopulation.forEach((person, index) => {
+        let copyArr=[...arrPopulation]
+        copyArr.forEach((person, index) => {
             switch(person.state) {
                 case 'fine':
                     let counter = 0
@@ -174,10 +175,14 @@ function simulator() {
                 default: 
                     return
             }
-            if(!isThereAny) {
-                clearInterval(intervalSimu)
-            }
         })
+        console.log(isThereAny)
+        clearInterval(intervalSimu)
+
+        if(!isThereAny) {
+            SilumationState = false
+            clearInterval(intervalSimu)
+        }
         handleDisplay()
     }, interval)
 }
