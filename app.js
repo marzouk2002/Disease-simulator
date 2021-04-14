@@ -16,6 +16,7 @@ let fatalityP;
 let contagiosityP;
 let timeBeforeDeath;
 let fps;
+let intervalSimu;
 
 //helper function 
 function getRandomNum(range) {
@@ -58,14 +59,14 @@ const activeSpan = document.querySelector('#a-cases')
 
 // Main functions
 function setAllItems() {
-    let pixelsNum= sizeInput.value
-    vaccineP= vaccineInput.value
-    casesP= casesInput.value
-    fatalityP= fatalityInput.value
+    let pixelsNum= sizeInput.value || 10
+    vaccineP= vaccineInput.value || 10
+    casesP= casesInput.value || 1
+    fatalityP= fatalityInput.value 
     contagiosityP= contagiosityInput.value
     timeBeforeDeath= timeBeforeDeathInput.value
     timeBeforeHealing= timeBeforeHealingInput.value
-    fps= fpsInput.value
+    fps= fpsInput.value || 10
 
     size = Math.round(500 /pixelsNum)
     Grid.style.setProperty('--num-row', size)
@@ -82,6 +83,14 @@ function setAllItems() {
     for(let i = 0; i < casesInput.value; i++) {
         let randomIndex = getRandomNum(totalPopulation)
         arrPopulation[randomIndex].state = 'sick'
+        let dies = getRandomState(fatalityP)
+        if(dies) {
+            arrPopulation[randomIndex].dies = true
+            arrPopulation[randomIndex].timer = timeBeforeDeath
+        } else {
+            arrPopulation[randomIndex].dies = false
+            arrPopulation[randomIndex].timer = timeBeforeHealing
+        }
     }
 
     handleDisplay()
@@ -89,6 +98,7 @@ function setAllItems() {
 }
 
 function handleDisplay() {
+    Grid.innerHTML=''
     arrPopulation.forEach(person=>{
         let cell = document.createElement('div')
         cell.classList.add('person')
@@ -110,9 +120,13 @@ function handleDisplay() {
     })
 }
 
-form.addEventListener('input',()=>{
-    setAllItems()
-    handleDisplay()
-})
+function simulator() {
+    const interval = Math.floor(1000/fps)
+    intervalSimu = setInterval(()=>{
+
+    }, )
+}
+
+form.addEventListener('input', setAllItems)
 
 setAllItems()
