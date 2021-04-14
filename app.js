@@ -7,7 +7,7 @@ class Person {
 }
 
 //Globale variables
-let localSsilumationState= false
+let SilumationState= false
 let arrPopulation;
 let size;
 let vaccineP;
@@ -121,12 +121,69 @@ function handleDisplay() {
 }
 
 function simulator() {
+    setAllItems()
+    SilumationState = true
     const interval = Math.floor(1000/fps)
     intervalSimu = setInterval(()=>{
+        let isThereAny= false
+        let deaths = 0
+        let curred = 0
+        let currentCases = 0
+        let newCases = 0
+        arrPopulation.forEach((person, index) => {
+            switch(person.state) {
+                case 'fine':
+                    let counter = 0
+                    arrPopulation[index+1]?.state == 'sick' ? counter++ : counter
+                    arrPopulation[index-1]?.state == 'sick' ? counter++ : counter
+                    arrPopulation[index+size+1]?.state == 'sick' ? counter++ : counter
+                    arrPopulation[index+size-1]?.state == 'sick' ? counter++ : counter
+                    arrPopulation[index+size]?.state == 'sick' ? counter++ : counter
+                    arrPopulation[index-size+1]?.state == 'sick' ? counter++ : counter
+                    arrPopulation[index-size-1]?.state == 'sick' ? counter++ : counter
+                    arrPopulation[index-size]?.state == 'sick' ? counter++ : counter
 
-    }, )
+                    let getSeak = getRandomState(contagiosityP*counter)
+                    if(getSeak) {
+                        person.state = 'sick'
+                        newCases++
+                        let ifDies = getRandomState(fatalityP)
+                        if(ifDies) {
+                            person.dies = true
+                            person.timer = timeBeforeDeath
+                        } else {
+                            person.dies = false
+                            person.timer = timeBeforeHealing
+                        }
+                    }
+                    break
+                case 'sick':
+                    isThereAny= true
+                    person.timer--
+                    currentCases++
+                    if(person.timer<=0) {
+                        if(person.dies) {
+                            person.state='dead'
+                            deaths++
+                        } else {
+                            person.state='immune'
+                            curred++
+                        }
+                    }
+                    break
+                default: 
+                    return
+            }
+            if(!isThereAny) {
+                clearInterval(intervalSimu)
+            }
+        })
+        handleDisplay()
+    }, interval)
 }
 
 form.addEventListener('input', setAllItems)
+
+btnStart.addEventListener('click', simulator)
 
 setAllItems()
