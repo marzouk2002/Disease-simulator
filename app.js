@@ -34,7 +34,7 @@ function getRandomState(rate) {
 }
 
 function getRandomIndexes(size, rate) {
-    const arrLen = Math.round(size*(rate/100))
+    const arrLen = Math.round(size*(rate/100)*1.1)
     const Arr = Array(arrLen).fill(0).map(n=>Math.floor(Math.random()*size))
     return Arr
 }
@@ -64,6 +64,7 @@ const activeSpan = document.querySelector('#a-cases')
 
 // Main functions
 function setAllItems() {
+    SilumationState = false
     clearInterval(intervalSimu)
     let pixelsNum= sizeInput.value || 10
     vaccineP= vaccineInput.value || 10
@@ -145,67 +146,68 @@ function handleDisplay() {
 }
 
 function simulator() {
-    SilumationState = true
-    const interval = Math.floor(1000/fps)
-    intervalSimu = setInterval(()=>{
-        let isThereAny= false
-        let copyArr=[...arrPopulation]
-        let newCases = 0
-        currentCases = 0
-        copyArr.forEach((person, index) => {
-            switch(person.state) {
-                case 'fine': {
-                        let counter = 0
-                        arrPopulation[index+1]?.state == 'sick' ? counter++ : counter
-                        arrPopulation[index-1]?.state == 'sick' ? counter++ : counter
-                        arrPopulation[index+size+1]?.state == 'sick' ? counter++ : counter
-                        arrPopulation[index+size-1]?.state == 'sick' ? counter++ : counter
-                        arrPopulation[index+size]?.state == 'sick' ? counter++ : counter
-                        arrPopulation[index-size+1]?.state == 'sick' ? counter++ : counter
-                        arrPopulation[index-size-1]?.state == 'sick' ? counter++ : counter
-                        arrPopulation[index-size]?.state == 'sick' ? counter++ : counter
-                        
+    if(!SilumationState) {
+        SilumationState = true
+        const interval = Math.floor(1000/fps)
+        intervalSimu = setInterval(()=>{
+            let isThereAny= false
+            let copyArr=[...arrPopulation]
+            let newCases = 0
+            currentCases = 0
+            copyArr.forEach((person, index) => {
+                switch(person.state) {
+                    case 'fine': {
+                            let counter = 0
+                            arrPopulation[index+1]?.state == 'sick' ? counter++ : counter
+                            arrPopulation[index-1]?.state == 'sick' ? counter++ : counter
+                            arrPopulation[index+size+1]?.state == 'sick' ? counter++ : counter
+                            arrPopulation[index+size-1]?.state == 'sick' ? counter++ : counter
+                            arrPopulation[index+size]?.state == 'sick' ? counter++ : counter
+                            arrPopulation[index-size+1]?.state == 'sick' ? counter++ : counter
+                            arrPopulation[index-size-1]?.state == 'sick' ? counter++ : counter
+                            arrPopulation[index-size]?.state == 'sick' ? counter++ : counter
+                            
 
-                        let getSeak = getRandomState(contagiosityP*counter)
-                        if(getSeak) {
-                            person.state = 'sick'
-                            newCases++
-                            let ifDies = getRandomState(fatalityP)
-                            if(ifDies) {
-                                person.dies = true
-                                person.timer = timeBeforeDeath
-                            } else {
-                                person.dies = false
-                                person.timer = timeBeforeHealing
+                            let getSeak = getRandomState(contagiosityP*counter)
+                            if(getSeak) {
+                                person.state = 'sick'
+                                newCases++
+                                let ifDies = getRandomState(fatalityP)
+                                if(ifDies) {
+                                    person.dies = true
+                                    person.timer = timeBeforeDeath
+                                } else {
+                                    person.dies = false
+                                    person.timer = timeBeforeHealing
+                                }
                             }
-                        }
-                        break
-                }
-                case 'sick': {
-                        isThereAny= true
-                        person.timer--
-                        currentCases++
-                        if(person.timer<=0) {
-                            if(person.dies) {
-                                person.state='dead'
-                                deaths++
-                            } else {
-                                person.state='immune'
-                                curred++
+                            break
+                    }
+                    case 'sick': {
+                            isThereAny= true
+                            person.timer--
+                            currentCases++
+                            if(person.timer<=0) {
+                                if(person.dies) {
+                                    person.state='dead'
+                                    deaths++
+                                } else {
+                                    person.state='immune'
+                                    curred++
+                                }
                             }
-                        }
-                        break
+                            break
+                    }
+                    
                 }
-                
+            })
+            cases = cases+ newCases
+            if(!isThereAny) {
+                clearInterval(intervalSimu)
             }
-        })
-        cases = cases+ newCases
-        if(!isThereAny) {
-            SilumationState = false
-            clearInterval(intervalSimu)
-        }
-        handleDisplay()
-    }, interval)
+            handleDisplay()
+        }, interval)
+    }
 }
 
 
