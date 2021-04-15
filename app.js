@@ -188,8 +188,15 @@ function simulator() {
     }, interval)
 }
 
+function reset() {
+    clearInterval(intervalSimu)
+    setAllItems()
+}
+
 form.addEventListener('input', setAllItems)
 
 btnStart.addEventListener('click', simulator)
+
+btnReset.addEventListener('click', reset)
 
 setAllItems()
