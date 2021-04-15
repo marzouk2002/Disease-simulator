@@ -17,6 +17,10 @@ let contagiosityP;
 let timeBeforeDeath;
 let fps;
 let intervalSimu;
+let deaths = 0
+let curred = 0
+let currentCases = 0
+let cases = 0
 
 //helper function 
 function getRandomNum(range) {
@@ -60,6 +64,7 @@ const activeSpan = document.querySelector('#a-cases')
 
 // Main functions
 function setAllItems() {
+    clearInterval(intervalSimu)
     let pixelsNum= sizeInput.value || 10
     vaccineP= vaccineInput.value || 10
     casesP= casesInput.value || 1
@@ -69,6 +74,11 @@ function setAllItems() {
     timeBeforeHealing= timeBeforeHealingInput.value
     fps= fpsInput.value || 10
 
+    deaths = 0
+    cases = Number(casesP)
+    currentCases = casesP
+
+
     size = Math.round(500 /pixelsNum)
     Grid.style.setProperty('--num-row', size)
 
@@ -77,10 +87,12 @@ function setAllItems() {
     const totalPopulation = Math.pow(size, 2)
     
     const arrImmune = getRandomIndexes(totalPopulation, vaccineInput.value)
+    const immuneSet = new Set(arrImmune)
+    curred = immuneSet.size
     arrImmune.forEach(num=>{
         arrPopulation[num].state = 'immune'
     })
-    
+
     for(let i = 0; i < casesInput.value; i++) {
         let randomIndex = getRandomNum(totalPopulation)
         arrPopulation[randomIndex].state = 'sick'
@@ -100,6 +112,15 @@ function setAllItems() {
 }
 
 function handleDisplay() {
+    // statistic stuff
+    populationSpan.innerHTML = Math.pow(size,2)
+    console.log(cases)
+    casesSpan.innerHTML = cases
+    deathsSpan.innerHTML = deaths
+    immuneSpan.innerHTML = curred
+    activeSpan.innerHTML = currentCases
+
+    //grid stuff
     Grid.innerHTML=''
     arrPopulation.forEach(person=>{
         let cell = document.createElement('div')
@@ -120,6 +141,7 @@ function handleDisplay() {
         }
         Grid.appendChild(cell)
     })
+
 }
 
 function simulator() {
@@ -127,11 +149,9 @@ function simulator() {
     const interval = Math.floor(1000/fps)
     intervalSimu = setInterval(()=>{
         let isThereAny= false
-        let deaths = 0
-        let curred = 0
-        let currentCases = 0
-        let newCases = 0
         let copyArr=[...arrPopulation]
+        let newCases = 0
+        currentCases = 0
         copyArr.forEach((person, index) => {
             switch(person.state) {
                 case 'fine': {
@@ -179,7 +199,7 @@ function simulator() {
                 
             }
         })
-
+        cases = cases+ newCases
         if(!isThereAny) {
             SilumationState = false
             clearInterval(intervalSimu)
@@ -188,15 +208,11 @@ function simulator() {
     }, interval)
 }
 
-function reset() {
-    clearInterval(intervalSimu)
-    setAllItems()
-}
 
 form.addEventListener('input', setAllItems)
 
 btnStart.addEventListener('click', simulator)
 
-btnReset.addEventListener('click', reset)
+btnReset.addEventListener('click', setAllItems)
 
 setAllItems()
