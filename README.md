@@ -9,5 +9,3 @@ I want to explain some stuff here:
 - red dote => sick person
 - blue dote => immune person (this can be from a vaccine or he already got the diseases and survived)
 - black dote => dead person
-
-2- You can imagine that the map (grid) that represents people as it is linked from both sides. So if the disease started from one side it can move to there (and I think it's more realistic because people are not restricted by borders within their community).
