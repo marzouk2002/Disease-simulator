@@ -158,15 +158,21 @@ function simulator() {
                 switch(person.state) {
                     case 'fine': {
                             let counter = 0
-                            arrPopulation[index+1]?.state == 'sick' ? counter++ : counter
-                            arrPopulation[index-1]?.state == 'sick' ? counter++ : counter
-                            arrPopulation[index+size+1]?.state == 'sick' ? counter++ : counter
-                            arrPopulation[index+size-1]?.state == 'sick' ? counter++ : counter
+
                             arrPopulation[index+size]?.state == 'sick' ? counter++ : counter
-                            arrPopulation[index-size+1]?.state == 'sick' ? counter++ : counter
-                            arrPopulation[index-size-1]?.state == 'sick' ? counter++ : counter
                             arrPopulation[index-size]?.state == 'sick' ? counter++ : counter
+
+                            if( index%size !== 0 ) {
+                                arrPopulation[index-1]?.state == 'sick' ? counter++ : counter
+                                arrPopulation[index-size-1]?.state == 'sick' ? counter++ : counter
+                                arrPopulation[index+size-1]?.state == 'sick' ? counter++ : counter
+                            }
                             
+                            if (index%size !== size-1) {
+                                arrPopulation[index+1]?.state == 'sick' ? counter++ : counter
+                                arrPopulation[index+size+1]?.state == 'sick' ? counter++ : counter
+                                arrPopulation[index-size+1]?.state == 'sick' ? counter++ : counter
+                            }
 
                             let getSeak = getRandomState(contagiosityP*counter)
                             if(getSeak) {

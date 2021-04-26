@@ -29,8 +29,8 @@ main {
 .container {
   width: 80%;
   display: grid;
-  grid-template-columns: 1fr calc(500px + 1rem) 1fr;
-  grid-template-rows: calc(500px + 1rem);
+  grid-template-columns: 1fr calc(550px + 1rem) 1fr;
+  grid-template-rows: calc(550px + 1rem);
   grid-gap: 10px;
 }
 
@@ -88,7 +88,7 @@ input {
   height: 100%;
   grid-template-columns: repeat(var(--num-row), 1fr);
   grid-template-rows: repeat(var(--num-row), 1fr);
-  grid-gap: 1px;
+  grid-gap: 2px;
 }
 
 .output > * {
