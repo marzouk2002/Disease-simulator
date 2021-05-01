@@ -29,8 +29,8 @@ main {
 .container {
   width: 80%;
   display: grid;
-  grid-template-columns: 1fr calc(550px + 1rem) 1fr;
-  grid-template-rows: calc(550px + 1rem);
+  grid-template-columns: 1fr calc(500px + 1rem) 1fr;
+  grid-template-rows: calc(500px + 1rem);
   grid-gap: 10px;
 }
 
