@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./dist/css/index.css">
     <script defer src="app.js"></script>
-    <title>Pandemic simulation</title>
+    <title>Pandemic simulator</title>
 </head>
+
 <body>
     <header>
-        <h1>disease simulator</h1>
+        <h1>Pandemic simulator</h1>
     </header>
     <main>
         <div class="container">
@@ -19,37 +21,37 @@
                 <hr>
                 <form id="input-form">
                     <label for="size">
-                        Pixel Size: 
-                    </label>
+                        Pixel Size:
                         <input type="number" min="5" max="25" value="10" id="size-f">
+                    </label>
                     <label for="vaccine">
                         Vaccinated pourcentage:
+                        <input type="number" min="0" max="100" value="10" id="vaccine">
                     </label>
-                    <input type="number" min="0" max="100" value="10" id="vaccine">
                     <label for="cases">
                         Cases Number:
+                        <input type="number" min="1" max="100" value="1" id="cases-f">
                     </label>
-                    <input type="number" min="1" max="100" value="1" id="cases-f">
                     <label for="fatality">
                         Death rate:
+                        <input type="number" min="0" max="100" value="10" id="fatality-f">
                     </label>
-                    <input type="number" min="0" max="100" value="10" id="fatality-f">
                     <label for="contagiosity">
-                        Contagiosity: 
+                        Contagiosity:
+                        <input type="number" min="0" max="100" value="10" id="contagiosity-f">
                     </label>
-                    <input type="number" min="0" max="100" value="10" id="contagiosity-f">
                     <label for="time-before-death">
-                        Time before Death: 
+                        Time before Death:
+                        <input type="number" id="time-b-d" min="1" value="10">
                     </label>
-                    <input type="number" id="time-b-d" min="1" value="10">
                     <label for="time-before-healing">
                         Time before Healing:
+                        <input type="number" id="time-b-h" min="1" value="20">
                     </label>
-                    <input type="number" id="time-b-h" min="1" value="20">
                     <label for="fps">
                         Frame per second:
+                        <input type="number" id="fps" min="1" max="25" value="10">
                     </label>
-                    <input type="number" id="fps" min="1" max="25" value="10">
                 </form>
                 <div class="btn">
                     <button class="btn-reset">Reset</button>
@@ -58,7 +60,9 @@
             </section>
             <section class="population"></section>
             <section class="output">
-                <h3>Statistic<hr></h3>
+                <h3>Statistic
+                    <hr>
+                </h3>
                 <p>Population total: <span id="population">400</span></p>
                 <p>Cases: <span id="cases">1000</span></p>
                 <p>Deaths: <span id="deaths">100</span></p>
@@ -68,4 +72,5 @@
         </div>
     </main>
 </body>
+
 </html>
